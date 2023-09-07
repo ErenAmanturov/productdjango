@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from .settings import base
 # from user.views import UserListCreate, UserDetail
 
 
@@ -25,4 +25,9 @@ urlpatterns = [
 
     path('api/v1/', include('product.urls')),
     path('api/v1/', include('user.urls')),
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
+#
+# if base.DEBUG:
+#     import debug_toolbar
+#     urlpatterns += path('__debug__/', include(debug_toolbar.urls))

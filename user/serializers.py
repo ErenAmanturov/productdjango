@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from user.models import User
+from rest_framework.validators import UniqueValidator
+from user.models import User, Phone
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.serializerfields import PhoneNumberField
 
@@ -15,13 +16,18 @@ class PasswordField(serializers.CharField):
 
 class RegisterSerializer(serializers.ModelSerializer):
     """Модельный Сериализатор Регистрации Пользователя"""
+    last_name = serializers.CharField(max_length=250, required=True)
+    first_name = serializers.CharField(max_length=250, required=True)
     username = serializers.CharField(max_length=10, required=True)
-    phone = PhoneNumberField(required=True)
+    phone = PhoneNumberField(required=True, validators=[UniqueValidator(
+        queryset=Phone.objects.all(),
+        message='This phone already exists')]
+    )
     password = PasswordField(required=True, allow_blank=False, allow_null=False)
 
     class Meta:
         model = User
-        fields = ["email", "username", 'phone', "password"]
+        fields = ["last_name", "first_name", "email", "username", 'phone', "password"]
 
     def validate(self, attrs):
         if 4 < len(attrs['password']) < 10:
@@ -32,6 +38,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return User.objects.create_user(
+            last_name=validated_data['last_name'],
+            first_name=validated_data['first_name'],
             email=validated_data['email'],
             username=validated_data['username'],
             password=validated_data['password']

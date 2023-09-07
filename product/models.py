@@ -14,14 +14,14 @@ class Profile(models.Model):
 
 class Colour(models.Model):
     # id = models.UUIDField(unique=True, primary_key=True, editable=True, default=uuid4)
-    colour = models.CharField(unique=True, null=True)
+    colour = models.CharField(unique=True, null=True, max_length=100)
 
     def __str__(self) -> str:
         return self.colour
 
 
 class Reinforce(models.Model):
-    id = models.UUIDField(unique=True, primary_key=True, editable=True, default=uuid4)
+    # id = models.UUIDField(unique=True, primary_key=True, editable=True, default=uuid4)
     reinforce = models.CharField(max_length=255)
 
     def __str__(self) -> str:
@@ -29,7 +29,7 @@ class Reinforce(models.Model):
 
 
 class Drain(models.Model):
-    id = models.UUIDField(unique=True, primary_key=True, editable=True, default=uuid4)
+    # id = models.UUIDField(unique=True, primary_key=True, editable=True, default=uuid4)
     drain = models.CharField(max_length=255)
 
     def __str__(self) -> str:
@@ -37,7 +37,7 @@ class Drain(models.Model):
 
 
 class Slope(models.Model):
-    id = models.UUIDField(unique=True, primary_key=True, editable=True, default=uuid4)
+    # id = models.UUIDField(unique=True, primary_key=True, editable=True, default=uuid4)
     slope = models.CharField(max_length=255)
 
     def __str__(self) -> str:

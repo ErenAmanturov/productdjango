@@ -33,7 +33,7 @@ class RegisterView(GenericAPIView):
             user=User.objects.get(username=serializer.data['username'])
         )
         phone.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response({'message': "User created successfully"}, status=status.HTTP_201_CREATED)
 
 
 class LoginAPIView(GenericAPIView):

@@ -34,8 +34,8 @@ class WindowAPIView(generics.ListCreateAPIView):
     queryset = Service.fetch_all(Window)
     serializer_class = WindowSerializer
     permission_classes = [p.IsAuthenticated, IsOwner]
-    authentication_classes =[
-        JWTAuthentication    #/users/user_id/window/
+    authentication_classes = [
+        JWTAuthentication
     ]
 
 
@@ -54,6 +54,7 @@ class UserWindowsListView(generics.ListAPIView):
 
     def list(self, request, *args, **kwargs):
         username = self.kwargs['username']
-        windows = self.queryset.select_related('user').only('user__username').filter(user__username=username)
+        windows = Service.fetch_one(queryset=self.queryset, username=username, user='user')
+        # windows = self.queryset.select_related('user').only('user__username').filter(user__username=username)
         serializer = self.serializer_class(windows, many=True)
         return Response(data=serializer.data, status=200)

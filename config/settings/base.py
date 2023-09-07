@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'colorfield',
     "phonenumber_field",
     'rest_framework_simplejwt',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +55,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+]
+
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
+
+INTERNAL_IPS = [
+    "127.0.0.1",
 ]
 
 ROOT_URLCONF = 'config.urls'

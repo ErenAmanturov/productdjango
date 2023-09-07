@@ -10,18 +10,34 @@ from phonenumber_field.modelfields import PhoneNumberField
 from .managers import UserManager
 
 
+class Subscriptions(models.Model):
+    type = models.CharField(unique=True, null=True, max_length=100)
+    price = models.PositiveSmallIntegerField(default=1)
+    time = models.CharField(max_length=100, choices=[('month', 'month'), ('year', 'year')], null=True)
+
+    def __str__(self):
+        return self.type
+
+    class Meta:
+        verbose_name = _('Subscription')
+        verbose_name_plural = _('Subscriptions')
+
+
 class User(AbstractBaseUser, PermissionsMixin):
     """
-    
+
     Users models using UserManager
-    
+
     """
     # id = models.UUIDField(primary_key=True, unique=True, editable=False, default=uuid4)
+    last_name = models.CharField(max_length=250, null=True)
+    first_name = models.CharField(max_length=250, null=True)
     username = models.CharField(unique=True, max_length=255)
     email = models.EmailField(unique=True, validators=[EmailValidator()])
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+    subscriptions = models.ForeignKey(Subscriptions, on_delete=models.PROTECT, null=True)
     objects = UserManager()
 
     """
@@ -65,4 +81,3 @@ class WalletReduction(models.Model):
 
     def __str__(self):
         return str(self.money_down)
-
